@@ -1,0 +1,43 @@
+# Prometheus
+prometheus:
+  image:
+    repository: prom/prometheus
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 9090
+    targetPort: 9090
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+  global:
+    scrapeInterval: "15s"
+
+
+# Grafana
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 3000
+    targetPort: 3000
+  admin:
+    user: admin
+    password: admin123
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  datasource:
+    prometheusUrl: http://monitor-prometheus-service:9090
